@@ -19,6 +19,68 @@
   </nav>
    <div class="container">
       <h1>Results</h1>
-     
+     <!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>My Maps</h3>
+    <div id="map"></div>
+    <script>
+        var map
+        var service
+        var infowindow
+        
+      function initMap() {
+            var losAngeles ={lat: 34.05, lng: -118.2437};
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 14,
+              center: losAngeles
+            })
+            var marker = new google.maps.Marker({
+              position: losAngeles,
+              map: map
+            })
+          var request = {
+            location: losAngeles,
+            radius: '500',
+            query: ['restaurant','bar','gym','park']
+          }
+           infowindow = new google.maps.InfoWindow()
+          function createMarker(place) {
+            var placeLoc = place.geometry.location;
+            var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+            });
+    
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.setContent(place.name);
+              infowindow.open(map, this);
+            });
+          }           
+            function callback(results, status) {
+              if (status == google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                  var place = results[i];
+                  createMarker(results[i]);
+                }
+              }
+            }  
+          service = new google.maps.places.PlacesService(map)
+          service.textSearch(request, callback)
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIfhvTZep7sALdV6Cnq-dbCCwpdpjJYt0&callback=initMap&libraries=places">
+    </script>
+  </body>
+</html>
   </div>
 </body>

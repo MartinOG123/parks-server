@@ -34,7 +34,7 @@ var bodyParser = require('body-parser')
         server.post('/',function(request, response){ 
           console.log(request.body)  
           
-           var zip = request.body.zip.split(',') 
+      
           
            
             
